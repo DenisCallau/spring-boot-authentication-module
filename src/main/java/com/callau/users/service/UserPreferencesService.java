@@ -4,8 +4,6 @@ import com.callau.users.dto.UserPreferencesDTO;
 import com.callau.users.model.User;
 import com.callau.users.model.UserPreferences;
 import com.callau.users.repository.UserPreferencesRepository;
-import com.callau.users.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +13,11 @@ import java.util.TimeZone;
 @Service
 public class UserPreferencesService extends BaseService {
 
-    @Autowired
-    private UserPreferencesRepository userPreferencesRepository;
+    private final UserPreferencesRepository userPreferencesRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    public UserPreferencesService(UserPreferencesRepository userPreferencesRepository) {
+        this.userPreferencesRepository = userPreferencesRepository;
+    }
 
     public UserPreferencesDTO getCurrentUserPreferences() {
         User user = getCurrentUser();

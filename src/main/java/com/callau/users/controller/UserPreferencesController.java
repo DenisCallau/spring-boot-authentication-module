@@ -2,7 +2,6 @@ package com.callau.users.controller;
 
 import com.callau.users.dto.UserPreferencesDTO;
 import com.callau.users.service.UserPreferencesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import javax.validation.Valid;
 @RequestMapping("/user-preferences")
 public class UserPreferencesController {
 
-    @Autowired
-    private UserPreferencesService service;
+    private final UserPreferencesService service;
+
+    public UserPreferencesController(UserPreferencesService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<UserPreferencesDTO> getCurrentUserPreferences() {

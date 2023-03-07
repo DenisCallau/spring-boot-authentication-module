@@ -7,7 +7,6 @@ import com.callau.users.model.User;
 import com.callau.users.model.UserStatus;
 import com.callau.users.repository.UserRepository;
 import com.callau.users.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +24,15 @@ import javax.validation.Valid;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private UserRepository userRepository;
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping
     public ResponseEntity<TokenDTO> authenticate(@RequestBody @Valid AuthenticationRequest dto) {

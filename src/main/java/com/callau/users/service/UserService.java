@@ -6,11 +6,10 @@ import com.callau.users.http.EmailClient;
 import com.callau.users.http.ResetPasswordEmailRequest;
 import com.callau.users.http.VerificationEmailRequest;
 import com.callau.users.model.User;
-import com.callau.users.repository.UserPreferencesRepository;
 import com.callau.users.model.UserStatus;
+import com.callau.users.repository.UserPreferencesRepository;
 import com.callau.users.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +20,17 @@ import java.util.Optional;
 @Service
 public class UserService extends BaseService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserPreferencesRepository userPreferencesRepository;
+    private final EmailClient emailClient;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserPreferencesRepository userPreferencesRepository;
-
-    @Autowired
-    private EmailClient emailClient;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public UserService(UserRepository userRepository, UserPreferencesRepository userPreferencesRepository, EmailClient emailClient, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userPreferencesRepository = userPreferencesRepository;
+        this.emailClient = emailClient;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     public NewUserResponse add(NewUserRequest request) {

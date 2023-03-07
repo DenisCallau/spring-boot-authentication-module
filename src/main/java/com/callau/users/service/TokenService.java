@@ -5,7 +5,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,14 +14,17 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Value("${jwt.expiration}")
-        private String expiration;
+    private String expiration;
 
     @Value("${jwt.secret}")
     private String secret;
+
+    public TokenService(UserService userService) {
+        this.userService = userService;
+    }
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
